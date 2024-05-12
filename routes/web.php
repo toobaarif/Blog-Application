@@ -20,10 +20,13 @@ Route::get('/', [BlogController::class, 'index'])->name('blogs.show');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/add-blog', [BlogController::class, 'create'])->name('add-blog');
 Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
 Route::get('/blogs', [BlogController::class, 'show'])->name('blogs.show');
 Route::get('/blog-details/{id}', [BlogController::class, 'blogDetail']);
+Route::middleware('auth')->group(function () {
+    Route::get('/add-blog', [BlogController::class, 'create'])->name('add-blog');
+    // Other routes related to blogs
+});
 
 
 Route::get('/my-blogs', [MyPostsController::class, 'userBlogs']);

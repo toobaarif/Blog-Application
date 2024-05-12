@@ -40,15 +40,23 @@
                 
                 <!-- Show delete button if the logged-in user is the author of the blog -->
                 @auth
-                @if ($blog->user_id === auth()->id() || auth()->user()->role === 1)
+                @if ($blog->user_id === auth()->id())
                     <form method="POST" action="{{ route('blogs.destroy', $blog->id) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Delete</button>
                     </form>
                     <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-primary">Edit</a>
+                @elseif (auth()->user()->role === 1)
+                    <form method="POST" action="{{ route('blogs.destroy', $blog->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Delete</button>
+                    </form>
                 @endif
             @endauth
+            
+        
             
             </div>
             <script>
